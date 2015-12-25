@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Mark's Prayer Site</h1>
+</div>
+<div class="row">
+    <div>
+        <h1>Today's Verse</h1>
+    </div>
+    <div>
+        @Html.Raw(ViewBag.TodaysVerse)
+    </div>
+</div>
