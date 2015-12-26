@@ -129,7 +129,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JmVersesController.cs" />
+    <Compile Include="Controllers\PrayerRequestsController.cs" />
+    <Compile Include="Controllers\TodaysPrayerController.cs" />
+    <Compile Include="Controllers\WestminsterCatechismController.cs" />
     <Compile Include="DAL\PrayerContext.cs" />
+    <Compile Include="DAL\PrayerInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,6 +177,22 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\JmVerses\Create.cshtml" />
+    <Content Include="Views\JmVerses\Delete.cshtml" />
+    <Content Include="Views\JmVerses\Details.cshtml" />
+    <Content Include="Views\JmVerses\Edit.cshtml" />
+    <Content Include="Views\JmVerses\Index.cshtml" />
+    <Content Include="Views\PrayerRequests\Create.cshtml" />
+    <Content Include="Views\PrayerRequests\Delete.cshtml" />
+    <Content Include="Views\PrayerRequests\Details.cshtml" />
+    <Content Include="Views\PrayerRequests\Edit.cshtml" />
+    <Content Include="Views\PrayerRequests\Index.cshtml" />
+    <Content Include="Views\WestminsterCatechism\Create.cshtml" />
+    <Content Include="Views\WestminsterCatechism\Delete.cshtml" />
+    <Content Include="Views\WestminsterCatechism\Details.cshtml" />
+    <Content Include="Views\WestminsterCatechism\Edit.cshtml" />
+    <Content Include="Views\WestminsterCatechism\Index.cshtml" />
+    <Content Include="Views\TodaysPrayer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
