@@ -2,7 +2,7 @@
 using System.Data.Entity.ModelConfiguration.Conventions;
 using m2prayer.Models;
 
-namespace m2prayer.DAL
+namespace m2prayer.Repository
 {
     public class PrayerContext : DbContext
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using m2prayer.Models;
 
-namespace m2prayer.DAL
+namespace m2prayer.Repository
 {
     public class PrayerInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<PrayerContext>
     {

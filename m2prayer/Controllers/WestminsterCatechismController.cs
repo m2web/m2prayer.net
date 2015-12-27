@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
-using m2prayer.DAL;
+using m2prayer.Repository;
 using m2prayer.Models;
 
 namespace m2prayer.Controllers
