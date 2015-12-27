@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using m2prayer.Services;
 
 namespace m2prayer.Controllers
@@ -12,8 +8,8 @@ namespace m2prayer.Controllers
         // GET: TodaysPrayer
         public ActionResult Index()
         {
-            var EsvApi = new EsvApi();
-            ViewBag.TodaysVerse = EsvApi.GetDailyVerse();
+            var esvApi = new EsvApi();
+            ViewBag.TodaysVerse = esvApi.GetDailyVerse();
             return View();
         }
     }
