@@ -14,7 +14,7 @@ namespace m2prayer.Controllers
         // GET: JmVerses
         public ActionResult Index()
         {
-            return View(db.JmVerses.ToList());
+            return View(db.JmVerses.ToList().OrderBy(v => v.Month));
         }
 
         // GET: JmVerses/Details/5

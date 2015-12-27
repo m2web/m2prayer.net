@@ -14,7 +14,7 @@ namespace m2prayer.Controllers
         // GET: PrayerRequests
         public ActionResult Index()
         {
-            return View(db.PrayerRequests.ToList());
+            return View(db.PrayerRequests.ToList().OrderBy(r => r.Category));
         }
 
         // GET: PrayerRequests/Details/5
