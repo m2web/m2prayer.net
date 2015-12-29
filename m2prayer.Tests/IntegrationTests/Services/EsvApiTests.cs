@@ -1,15 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Text;
+﻿using m2prayer.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using m2prayer.Services;
 
-
-namespace m2prayer.Tests.Services
+namespace m2prayer.Tests.IntegrationTests.Services
 {
     [TestClass]
-    public class Esv_Api
+    public class EsvApiTests
     {
         private IEsvApi _esvApi;
 

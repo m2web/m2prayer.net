@@ -20,7 +20,7 @@ namespace m2prayer.Controllers
 
         public ActionResult Index()
         {
-            //TODO: GetYearsVerses()
+            //TODO: GetVersesToDate()
 
             var EsvApi = new EsvApi();
             ViewBag.TodaysVerse = EsvApi.GetDailyVerse();
