@@ -133,6 +133,7 @@
     <Compile Include="Controllers\PrayerRequestsController.cs" />
     <Compile Include="Controllers\TodaysPrayerController.cs" />
     <Compile Include="Controllers\WestminsterCatechismController.cs" />
+    <Compile Include="Repository\JmVersesRepository.cs" />
     <Compile Include="Repository\PrayerContext.cs" />
     <Compile Include="Repository\PrayerInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -143,7 +144,11 @@
     <Compile Include="Models\WestminsterCatechism.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\PrayerRequestRepository.cs" />
+    <Compile Include="Repository\WestminsterCatechismRepository.cs" />
     <Compile Include="Services\Esv_Api.cs" />
+    <Compile Include="Services\JmVersesService.cs" />
+    <Compile Include="Services\PrayerRequestService.cs" />
+    <Compile Include="Services\WestminsterCatechismService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

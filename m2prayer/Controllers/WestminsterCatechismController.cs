@@ -1,21 +1,29 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Net;
 using System.Web.Mvc;
 using m2prayer.Repository;
 using m2prayer.Models;
+using m2prayer.Services;
 
 namespace m2prayer.Controllers
 {
     public class WestminsterCatechismController : Controller
     {
-        private PrayerContext db = new PrayerContext();
+        private readonly IWestminsterCatechismService _catechismService;
+
+        public WestminsterCatechismController()
+        {
+            _catechismService = new WestminsterCatechismService(new WestminsterCatechismRepository(new PrayerContext()));
+        }
+
+        public WestminsterCatechismController(IWestminsterCatechismService catechismService)
+        {
+            _catechismService = catechismService;
+        }
 
         // GET: WestminsterCatechism
         public ActionResult Index()
         {
-            return View(db.WestminsterCatechisms.ToList().OrderBy(q => q.Number));
+            return View(_catechismService.GetCatechisms());
         }
 
         // GET: WestminsterCatechism/Details/5
@@ -25,7 +33,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WestminsterCatechism westminsterCatechism = db.WestminsterCatechisms.Find(id);
+            WestminsterCatechism westminsterCatechism = _catechismService.GetCatechismById(id);
             if (westminsterCatechism == null)
             {
                 return HttpNotFound();
@@ -48,8 +56,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.WestminsterCatechisms.Add(westminsterCatechism);
-                db.SaveChanges();
+                _catechismService.InsertCatechism(westminsterCatechism);
+                _catechismService.Save();
                 return RedirectToAction("Index");
             }
 
@@ -63,7 +71,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WestminsterCatechism westminsterCatechism = db.WestminsterCatechisms.Find(id);
+            WestminsterCatechism westminsterCatechism = _catechismService.GetCatechismById(id);
             if (westminsterCatechism == null)
             {
                 return HttpNotFound();
@@ -80,8 +88,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(westminsterCatechism).State = EntityState.Modified;
-                db.SaveChanges();
+                _catechismService.UpdateCatechism(westminsterCatechism);
+                _catechismService.Save();
                 return RedirectToAction("Index");
             }
             return View(westminsterCatechism);
@@ -94,7 +102,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WestminsterCatechism westminsterCatechism = db.WestminsterCatechisms.Find(id);
+            WestminsterCatechism westminsterCatechism = _catechismService.GetCatechismById(id);
             if (westminsterCatechism == null)
             {
                 return HttpNotFound();
@@ -107,9 +115,8 @@ namespace m2prayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            WestminsterCatechism westminsterCatechism = db.WestminsterCatechisms.Find(id);
-            db.WestminsterCatechisms.Remove(westminsterCatechism);
-            db.SaveChanges();
+            _catechismService.DeleteCatechism(id);
+            _catechismService.Save();
             return RedirectToAction("Index");
         }
 
@@ -117,7 +124,7 @@ namespace m2prayer.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _catechismService.Dispose();
             }
             base.Dispose(disposing);
         }

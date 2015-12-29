@@ -1,55 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.Linq;
 using m2prayer.Models;
+using static System.GC;
 
 namespace m2prayer.Repository
 {
-    //TODO: look at http://www.asp.net/mvc/overview/older-versions/getting-started-with-ef-5-using-mvc-4/implementing-the-repository-and-unit-of-work-patterns-in-an-asp-net-mvc-application
     public interface IPrayerRequestRepository : IDisposable
     {
         IEnumerable<PrayerRequest> GetRequests();
-        PrayerRequest GetRequestById(int requestId);
+        PrayerRequest GetRequestById(int? requestId);
         void InsertRequest(PrayerRequest request);
         void DeleteRequest(int requestId);
-        void UpdateStudent(PrayerRequest request);
+        void UpdateRequest(PrayerRequest request);
         void Save();
     }
 
-    public class PrayerRequestRepository: IPrayerRequestRepository, IDisposable
+    public class PrayerRequestRepository: IPrayerRequestRepository
     {
-        public IEnumerable<PrayerRequest> GetRequests()
+        private readonly PrayerContext _context;
+
+        public PrayerRequestRepository(PrayerContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public PrayerRequest GetRequestById(int requestId)
+        public IEnumerable<PrayerRequest> GetRequests()
         {
-            throw new NotImplementedException();
+            return _context.PrayerRequests.ToList().OrderBy(r => r.Category);
+        }
+
+        public PrayerRequest GetRequestById(int? requestId)
+        {
+            return _context.PrayerRequests.Find(requestId);
         }
 
         public void InsertRequest(PrayerRequest request)
         {
-            throw new NotImplementedException();
+            _context.PrayerRequests.Add(request);
         }
 
         public void DeleteRequest(int requestId)
         {
-            throw new NotImplementedException();
+            var request = _context.PrayerRequests.Find(requestId);
+            _context.PrayerRequests.Remove(request);
         }
 
-        public void UpdateStudent(PrayerRequest request)
+        public void UpdateRequest(PrayerRequest request)
         {
-            throw new NotImplementedException();
+            _context.PrayerRequests.AddOrUpdate(request);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
+        }
+
+        private bool _disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+                if (disposing)
+                    _context.Dispose();
+
+            _disposed = true;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            SuppressFinalize(this);
         }
+
     }
 }

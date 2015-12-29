@@ -6,7 +6,7 @@ using m2prayer.Models;
 
 namespace m2prayer.Repository
 {
-    public class PrayerInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<PrayerContext>
+    public class PrayerInitializer : System.Data.Entity.DropCreateDatabaseAlways<PrayerContext>
     {
         protected override void Seed(PrayerContext context)
         {

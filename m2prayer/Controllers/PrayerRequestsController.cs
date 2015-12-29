@@ -1,20 +1,29 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
 using m2prayer.Repository;
 using m2prayer.Models;
+using m2prayer.Services;
 
 namespace m2prayer.Controllers
 {
     public class PrayerRequestsController : Controller
     {
-        private PrayerContext db = new PrayerContext();
+        private readonly IPrayerRequestService _prayerRequestService;
+
+        public PrayerRequestsController()
+        {
+            _prayerRequestService = new PrayerRequestService(new PrayerRequestRepository(new PrayerContext()));
+        }
+
+        public PrayerRequestsController(IPrayerRequestService prayerRequestService)
+        {
+            _prayerRequestService = prayerRequestService;
+        }
 
         // GET: PrayerRequests
         public ActionResult Index()
         {
-            return View(db.PrayerRequests.ToList().OrderBy(r => r.Category));
+            return View(_prayerRequestService.GetRequests());
         }
 
         // GET: PrayerRequests/Details/5
@@ -24,7 +33,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrayerRequest prayerRequest = db.PrayerRequests.Find(id);
+            PrayerRequest prayerRequest = _prayerRequestService.GetRequestById(id);
             if (prayerRequest == null)
             {
                 return HttpNotFound();
@@ -47,8 +56,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.PrayerRequests.Add(prayerRequest);
-                db.SaveChanges();
+               _prayerRequestService.InsertRequest(prayerRequest);
+                _prayerRequestService.Save();
                 return RedirectToAction("Index");
             }
 
@@ -62,7 +71,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrayerRequest prayerRequest = db.PrayerRequests.Find(id);
+            PrayerRequest prayerRequest = _prayerRequestService.GetRequestById(id);
             if (prayerRequest == null)
             {
                 return HttpNotFound();
@@ -79,8 +88,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(prayerRequest).State = EntityState.Modified;
-                db.SaveChanges();
+                _prayerRequestService.UpdateRequest(prayerRequest);
+                _prayerRequestService.Save();
                 return RedirectToAction("Index");
             }
             return View(prayerRequest);
@@ -93,7 +102,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PrayerRequest prayerRequest = db.PrayerRequests.Find(id);
+            PrayerRequest prayerRequest = _prayerRequestService.GetRequestById(id);
             if (prayerRequest == null)
             {
                 return HttpNotFound();
@@ -106,9 +115,8 @@ namespace m2prayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PrayerRequest prayerRequest = db.PrayerRequests.Find(id);
-            db.PrayerRequests.Remove(prayerRequest);
-            db.SaveChanges();
+            _prayerRequestService.DeleteRequest(id);
+            _prayerRequestService.Save();
             return RedirectToAction("Index");
         }
 
@@ -116,7 +124,7 @@ namespace m2prayer.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _prayerRequestService.Dispose();
             }
             base.Dispose(disposing);
         }

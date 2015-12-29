@@ -1,20 +1,29 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
 using m2prayer.Repository;
 using m2prayer.Models;
+using m2prayer.Services;
 
 namespace m2prayer.Controllers
 {
     public class JmVersesController : Controller
     {
-        private PrayerContext db = new PrayerContext();
+        private readonly IJmVersesService _verseService;
+
+        public JmVersesController()
+        {
+            _verseService = new JmVersesService(new JmVersesRepository(new PrayerContext()));
+        }
+
+        public JmVersesController(IJmVersesService verseService)
+        {
+            _verseService = verseService;
+        }
 
         // GET: JmVerses
         public ActionResult Index()
         {
-            return View(db.JmVerses.ToList().OrderBy(v => v.Month));
+            return View(_verseService.GetVerses());
         }
 
         // GET: JmVerses/Details/5
@@ -24,7 +33,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JmVerse jmVerse = db.JmVerses.Find(id);
+            JmVerse jmVerse = _verseService.GetVerseById(id);
             if (jmVerse == null)
             {
                 return HttpNotFound();
@@ -47,8 +56,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.JmVerses.Add(jmVerse);
-                db.SaveChanges();
+                _verseService.InsertVerse(jmVerse);
+                _verseService.Save();
                 return RedirectToAction("Index");
             }
 
@@ -62,7 +71,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JmVerse jmVerse = db.JmVerses.Find(id);
+            JmVerse jmVerse = _verseService.GetVerseById(id);
             if (jmVerse == null)
             {
                 return HttpNotFound();
@@ -79,8 +88,8 @@ namespace m2prayer.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(jmVerse).State = EntityState.Modified;
-                db.SaveChanges();
+                _verseService.UpdateVerse(jmVerse);
+                _verseService.Save();
                 return RedirectToAction("Index");
             }
             return View(jmVerse);
@@ -93,7 +102,7 @@ namespace m2prayer.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JmVerse jmVerse = db.JmVerses.Find(id);
+            JmVerse jmVerse = _verseService.GetVerseById(id);
             if (jmVerse == null)
             {
                 return HttpNotFound();
@@ -106,9 +115,8 @@ namespace m2prayer.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            JmVerse jmVerse = db.JmVerses.Find(id);
-            db.JmVerses.Remove(jmVerse);
-            db.SaveChanges();
+            _verseService.DeleteVerse(id);
+            _verseService.Save();
             return RedirectToAction("Index");
         }
 
@@ -116,7 +124,7 @@ namespace m2prayer.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _verseService.Dispose();
             }
             base.Dispose(disposing);
         }
