@@ -24,6 +24,10 @@ namespace m2prayer.Controllers
         // GET: TodaysPrayer
         public ActionResult Index()
         {
+            //TODO: GetTodaysCatechism()
+            //TODO: GetTodaysPrayerRequests()
+            //TODO: GetCurrentVerses()
+
             var esvApi = new EsvApi();
             ViewBag.TodaysVerse = esvApi.GetDailyVerse();
             return View();

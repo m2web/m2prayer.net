@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using m2prayer;
 using m2prayer.Controllers;
+using m2prayer.Services;
+using Moq;
 
 namespace m2prayer.Tests.Controllers
 {
@@ -16,7 +13,8 @@ namespace m2prayer.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            var mockVerseService = new Mock<IJmVersesService>();
+            HomeController controller = new HomeController(mockVerseService.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -24,18 +22,5 @@ namespace m2prayer.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
-
-        //[TestMethod]
-        //public void About()
-        //{
-        //    // Arrange
-        //    HomeController controller = new HomeController();
-
-        //    // Act
-        //    ViewResult result = controller.About() as ViewResult;
-
-        //    // Assert
-        //    Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-        //}
     }
 }
