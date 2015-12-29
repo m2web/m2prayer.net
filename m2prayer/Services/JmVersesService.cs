@@ -13,6 +13,8 @@ namespace m2prayer.Services
         void UpdateVerse(JmVerse verse);
         void Save();
         void Dispose();
+        IEnumerable<JmVerse> GetCurrentVerses();
+        IEnumerable<JmVerse> GetYearsVerses();
     }
 
     public class JmVersesService : IJmVersesService
@@ -62,6 +64,16 @@ namespace m2prayer.Services
         public void Dispose()
         {
             _jmVersesRepository.Dispose();
+        }
+        //TODO: impletment below
+        public IEnumerable<JmVerse> GetCurrentVerses()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<JmVerse> GetYearsVerses()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

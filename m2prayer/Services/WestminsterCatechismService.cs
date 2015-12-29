@@ -13,6 +13,7 @@ namespace m2prayer.Services
         void UpdateCatechism(WestminsterCatechism catechism);
         void Save();
         void Dispose();
+        WestminsterCatechism GetTodaysCatechism();
     }
 
     public class WestminsterCatechismService : IWestminsterCatechismService
@@ -62,6 +63,11 @@ namespace m2prayer.Services
         public void Dispose()
         {
             _catechismRepository.Dispose();
+        }
+        //TODO: Implement
+        public WestminsterCatechism GetTodaysCatechism()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

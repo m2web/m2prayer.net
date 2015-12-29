@@ -13,6 +13,7 @@ namespace m2prayer.Services
         void UpdateRequest(PrayerRequest request);
         void Save();
         void Dispose();
+        IEnumerable<PrayerRequest> GetTodaysPrayerRequests();
     }
 
     public class PrayerRequestService : IPrayerRequestService
@@ -62,6 +63,11 @@ namespace m2prayer.Services
         public void Dispose()
         {
             _prayerRequestRepository.Dispose();
+        }
+        //TODO: implement
+        public IEnumerable<PrayerRequest> GetTodaysPrayerRequests()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
