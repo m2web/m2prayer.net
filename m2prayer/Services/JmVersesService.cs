@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Web.UI.WebControls;
 using m2prayer.Models;
 using m2prayer.Repository;
 
@@ -71,10 +73,18 @@ namespace m2prayer.Services
         public IEnumerable<JmVerse> GetCurrentVerses()
         {
             var todaysDate = DateTime.Today;
-
-            //get current month
             var thisMonth = todaysDate.Month;
-            return _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth).ToList();
+            var theYear = (todaysDate.Year % 2 == 0) ? "GRUDEM" : "BOOKS";
+
+            //if date is past December 15th, let's start next years verses
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            if (thisMonth.Equals(12) && cal.GetDayOfMonth(todaysDate) > 15)
+            {
+                thisMonth = 2;//start in February as no verses in Jan.
+                theYear = theYear.Equals("BOOKS") ? "GRUDEM" : "BOOKS";
+            }
+
+            return _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth && v.Year.Equals(theYear)).ToList().OrderByDescending(v => v.Month);
         }
 
         public IEnumerable<JmVerse> GetYearsVerses()

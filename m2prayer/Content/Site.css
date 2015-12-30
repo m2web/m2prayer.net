@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.bg-TodaysVerse {
+  background-color: #d9e8ec;
+}

@@ -1,24 +1,31 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("table > tbody tr:odd").css("background-color", "#F7F7F7");
+    });
+</script>
 <div class="jumbotron">
     <h1>Mark's Today Prayer Site</h1>
 </div>
 <div class="row">
-    <div>
-        <h1>Today's Verse</h1>
+    <div class="bg-TodaysVerse">
+        <div>
+            <h1>Today's Verse</h1>
+        </div>
+        <div>
+            @Html.Raw(ViewBag.TodaysVerse)
+        </div>
     </div>
-    <div>
-        @Html.Raw(ViewBag.TodaysVerse)
-    </div>
-    <div>
+    <h2>Memory Verses</h2>
+    <table class="table table-striped">
         @foreach (var verse in ViewBag.CurrentVerses)
         {
             <tr>
-                <td>@verse.Reference</td>
+                <td><label>@verse.Reference</label></td>
                 <td>@verse.Text</td>
             </tr>
-            <br/><br />
         }
-    </div>
+    </table>
 </div>
