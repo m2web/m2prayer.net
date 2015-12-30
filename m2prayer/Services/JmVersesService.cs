@@ -73,8 +73,8 @@ namespace m2prayer.Services
             var todaysDate = DateTime.Today;
 
             //get current month
-            var thisMonth = 10;//todaysDate.Month;
-            return _jmVersesRepository.GetVerses().Where(v => v.Month.Equals(thisMonth)).ToList();
+            var thisMonth = todaysDate.Month;
+            return _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth).ToList();
         }
 
         public IEnumerable<JmVerse> GetYearsVerses()
