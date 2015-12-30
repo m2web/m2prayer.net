@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web.UI.WebControls;
 using m2prayer.Models;
 using m2prayer.Repository;
 
@@ -69,7 +68,7 @@ namespace m2prayer.Services
         {
             _jmVersesRepository.Dispose();
         }
-        //TODO: impletment below
+        
         public IEnumerable<JmVerse> GetCurrentVerses()
         {
             var todaysDate = DateTime.Today;
@@ -83,10 +82,13 @@ namespace m2prayer.Services
                 thisMonth = 2;//start in February as no verses in Jan.
                 theYear = theYear.Equals("BOOKS") ? "GRUDEM" : "BOOKS";
             }
+            //get verses for the current and next month that are for the upcoming month's meeting for Joshua's Men
+            var verses = _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth+1 && v.Year.Equals(theYear) && v.StartDate <= todaysDate && v.EndDate > todaysDate).ToList().OrderByDescending(v => v.Month);
 
-            return _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth && v.Year.Equals(theYear)).ToList().OrderByDescending(v => v.Month);
+            return verses;
         }
 
+        //TODO: impletment below
         public IEnumerable<JmVerse> GetYearsVerses()
         {
             throw new System.NotImplementedException();

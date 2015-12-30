@@ -10,5 +10,6 @@ namespace m2prayer.Models
         public string Year { get; set; }
         public int Month { get; set; }
         public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
