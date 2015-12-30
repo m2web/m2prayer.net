@@ -10,6 +10,10 @@ namespace m2prayer.Controllers
     public class HomeController : Controller
     {
         private readonly IJmVersesService _verseService;
+        public HomeController()
+        {
+            _verseService = new JmVersesService();
+        }
 
         public HomeController(IJmVersesService verseService)
         {

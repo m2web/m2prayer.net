@@ -10,6 +10,13 @@ namespace m2prayer.Controllers
         private readonly IWestminsterCatechismService _catechismService;
         private readonly IPrayerRequestService _prayerRequestService;
 
+        public TodaysPrayerController()
+        {
+            _verseService = new JmVersesService();
+            _catechismService = new WestminsterCatechismService();
+            _prayerRequestService = new PrayerRequestService();
+        }
+
         public TodaysPrayerController(IJmVersesService verseService, IWestminsterCatechismService catechismService, IPrayerRequestService prayerRequestService)
         {
             if (verseService == null) throw new ArgumentNullException(nameof(verseService));
@@ -27,7 +34,7 @@ namespace m2prayer.Controllers
             //TODO: GetTodaysCatechism()
             //TODO: GetTodaysPrayerRequests()
             //TODO: GetCurrentVerses()
-
+            ViewBag.CurrentVerses = _verseService.GetCurrentVerses();
             var esvApi = new EsvApi();
             ViewBag.TodaysVerse = esvApi.GetDailyVerse();
             return View();

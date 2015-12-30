@@ -11,4 +11,14 @@
     <div>
         @Html.Raw(ViewBag.TodaysVerse)
     </div>
+    <div>
+        @foreach (var verse in ViewBag.CurrentVerses)
+        {
+            <tr>
+                <td>@verse.Reference</td>
+                <td>@verse.Text</td>
+            </tr>
+            <br/><br />
+        }
+    </div>
 </div>

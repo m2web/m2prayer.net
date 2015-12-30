@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using m2prayer.Models;
 using m2prayer.Repository;
 
@@ -68,7 +70,11 @@ namespace m2prayer.Services
         //TODO: impletment below
         public IEnumerable<JmVerse> GetCurrentVerses()
         {
-            throw new System.NotImplementedException();
+            var todaysDate = DateTime.Today;
+
+            //get current month
+            var thisMonth = 10;//todaysDate.Month;
+            return _jmVersesRepository.GetVerses().Where(v => v.Month.Equals(thisMonth)).ToList();
         }
 
         public IEnumerable<JmVerse> GetYearsVerses()
