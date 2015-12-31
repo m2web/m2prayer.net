@@ -79,11 +79,10 @@ namespace m2prayer.Services
             var cal = CultureInfo.CurrentCulture.Calendar;
             if (thisMonth.Equals(12) && cal.GetDayOfMonth(todaysDate) > 15)
             {
-                thisMonth = 2;//start in February as no verses in Jan.
                 theYear = theYear.Equals("BOOKS") ? "GRUDEM" : "BOOKS";
             }
             //get verses for the current and next month that are for the upcoming month's meeting for Joshua's Men
-            var verses = _jmVersesRepository.GetVerses().Where(v => v.Month <= thisMonth+1 && v.Year.Equals(theYear) && v.StartDate <= todaysDate && v.EndDate > todaysDate).ToList().OrderByDescending(v => v.Month);
+            var verses = _jmVersesRepository.GetVerses().Where(v => v.Year.Equals(theYear) && v.StartDate <= todaysDate && v.EndDate > todaysDate).ToList().OrderByDescending(v => v.Month);
 
             return verses;
         }
