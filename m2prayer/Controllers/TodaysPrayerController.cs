@@ -33,7 +33,7 @@ namespace m2prayer.Controllers
         {
             //TODO: GetTodaysCatechism()
             //TODO: GetTodaysPrayerRequests()
-            //TODO: GetCurrentVerses()
+
             ViewBag.CurrentVerses = _verseService.GetCurrentVerses();
             var esvApi = new EsvApi();
             ViewBag.TodaysVerse = esvApi.GetDailyVerse();

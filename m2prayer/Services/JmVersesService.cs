@@ -87,10 +87,23 @@ namespace m2prayer.Services
             return verses;
         }
 
-        //TODO: impletment below
         public IEnumerable<JmVerse> GetYearsVerses()
         {
-            throw new System.NotImplementedException();
+            //var todaysDate = DateTime.Today;
+            var todaysDate = new DateTime(2016, 5, 1);
+            var thisMonth = todaysDate.Month;
+            var theYear = (todaysDate.Year % 2 == 0) ? "GRUDEM" : "BOOKS";
+
+            //if date is past December 15th, let's start next years verses
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            if (thisMonth.Equals(12) && cal.GetDayOfMonth(todaysDate) > 15)
+            {
+                theYear = theYear.Equals("BOOKS") ? "GRUDEM" : "BOOKS";
+            }
+            //get verses for the current month down to the initial months for Joshua's Men
+            var verses = _jmVersesRepository.GetVerses().Where(v => v.Year.Equals(theYear) && v.StartDate <= todaysDate).ToList().OrderByDescending(v => v.Month);
+
+            return verses;
         }
     }
 }
