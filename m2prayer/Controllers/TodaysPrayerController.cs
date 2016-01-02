@@ -31,6 +31,10 @@ namespace m2prayer.Controllers
         // GET: TodaysPrayer
         public ActionResult Index()
         {
+            //get the daily verse
+            var esvApi = new EsvApi();
+            ViewBag.TodaysVerse = esvApi.GetDailyVerse();
+
             //today's catechism
             ViewBag.TodaysCatechismNumber = _catechismService.GetTodaysCatechism().Number;
             ViewBag.TodaysCatechismQuestion = _catechismService.GetTodaysCatechism().Question;
@@ -39,9 +43,9 @@ namespace m2prayer.Controllers
             //current Joshua's Men verses
             ViewBag.CurrentVerses = _verseService.GetCurrentVerses();
 
-            //get the daily verse
-            var esvApi = new EsvApi();
-            ViewBag.TodaysVerse = esvApi.GetDailyVerse();
+            //get today's prayer request
+            ViewBag.TodaysPrayerRequests = _prayerRequestService.GetTodaysPrayerRequests();
+
             return View();
         }
     }

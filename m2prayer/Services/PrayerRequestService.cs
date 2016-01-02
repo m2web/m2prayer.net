@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using m2prayer.Models;
 using m2prayer.Repository;
 
@@ -64,10 +67,54 @@ namespace m2prayer.Services
         {
             _prayerRequestRepository.Dispose();
         }
-        //TODO: implement
+
         public IEnumerable<PrayerRequest> GetTodaysPrayerRequests()
         {
-            throw new System.NotImplementedException();
+            var todaysDate = DateTime.Today;
+
+            //This is the day number for the week
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            var weekDayNumber = (int)cal.GetDayOfWeek(todaysDate);
+            var allRequests = _prayerRequestRepository.GetRequests();
+            var requestCount = allRequests.Count();
+
+            //categories per day = (categories / number of days of prayer w unique requests)
+            var categoriesPerDay = (requestCount / 4);
+            var categoryEnd = 0;
+            var categoryStart = 0;
+
+            //determine the last category to pray about that day
+            if (weekDayNumber * categoriesPerDay <= requestCount)
+            {
+                categoryEnd = weekDayNumber * categoriesPerDay;
+
+            }
+            else {
+                //set the random prayer list days here
+                //get a random number for category end since the last days of the week will have the same requests
+                if (weekDayNumber > 4)
+                { 
+                    //if day is Thursday thru Saturday get a random set of categories
+                    var random = new Random();
+                    categoryEnd = random.Next(1, requestCount + 1); 
+
+                    //check that categoryEnd is at least 4 so wse have 4 categories for which to pray. 
+                    //this is because the categoryEnd might be 2 then the result is only 2 categories.
+                    if (categoryEnd < 4)
+                    {
+                        categoryEnd = 4;
+                    }
+                }
+                else {//it is Monday - Wednesday
+                    categoryEnd = requestCount;
+                }
+                //end random prayer list days setting here
+
+                //determine the first category to pray about that day
+                categoryStart = categoryEnd - categoriesPerDay;
+            }
+
+            return _prayerRequestRepository.GetTodaysPrayerRequests(categoryStart, categoryEnd);
         }
     }
 }

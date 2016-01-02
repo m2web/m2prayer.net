@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using m2prayer.Models;
 using static System.GC;
 
@@ -15,6 +16,7 @@ namespace m2prayer.Repository
         void DeleteRequest(int requestId);
         void UpdateRequest(PrayerRequest request);
         void Save();
+        IEnumerable<PrayerRequest> GetTodaysPrayerRequests(int categoryStart, int categoryEnd);
     }
 
     public class PrayerRequestRepository: IPrayerRequestRepository
@@ -72,6 +74,12 @@ namespace m2prayer.Repository
         {
             Dispose(true);
             SuppressFinalize(this);
+        }
+
+        public IEnumerable<PrayerRequest> GetTodaysPrayerRequests(int categoryStart, int categoryEnd)
+        {
+            var result = _context.PrayerRequests.Where(p => p.Number >= categoryStart && p.Number <= categoryEnd);
+            return result.ToList();
         }
 
     }

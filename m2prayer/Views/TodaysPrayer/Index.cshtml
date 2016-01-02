@@ -35,4 +35,14 @@
             </tr>
         }
     </table>
+    <h2>Today's Prayer Requests</h2>
+    <table class="table table-striped">
+        @foreach (var prayer in ViewBag.TodaysPrayerRequests)
+        {
+            <tr>
+                <td><label>@prayer.Category</label></td>
+                <td>@prayer.Request</td>
+            </tr>
+        }
+    </table>
 </div>
