@@ -89,8 +89,7 @@ namespace m2prayer.Services
 
         public IEnumerable<JmVerse> GetYearsVerses()
         {
-            //var todaysDate = DateTime.Today;
-            var todaysDate = new DateTime(2016, 5, 1);
+            var todaysDate = DateTime.Today;
             var thisMonth = todaysDate.Month;
             var theYear = (todaysDate.Year % 2 == 0) ? "GRUDEM" : "BOOKS";
 

@@ -14,6 +14,13 @@
             @Html.Raw(ViewBag.TodaysVerse)
         </div>
     </div>
+    <div class="bg-TodaysCatechsim">
+        <h2>Today's Westminster Catechism Q/A</h2>
+        <div>
+            @ViewBag.TodaysCatechismNumber. @ViewBag.TodaysCatechismQuestion<br/>
+            @ViewBag.TodaysCatechismAnswer
+        </div>
+    </div>
     <h2>Memory Verses</h2>
     <table class="table table-striped">
         @foreach (var verse in ViewBag.YearsVerses)

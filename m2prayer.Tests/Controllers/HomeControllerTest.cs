@@ -14,7 +14,9 @@ namespace m2prayer.Tests.Controllers
         {
             // Arrange
             var mockVerseService = new Mock<IJmVersesService>();
-            HomeController controller = new HomeController(mockVerseService.Object);
+            var mockCatechismService = new Mock<IWestminsterCatechismService>();
+
+            HomeController controller = new HomeController(mockVerseService.Object, mockCatechismService.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;

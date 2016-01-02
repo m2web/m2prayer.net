@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using m2prayer.Models;
 using m2prayer.Repository;
 
@@ -64,10 +66,42 @@ namespace m2prayer.Services
         {
             _catechismRepository.Dispose();
         }
-        //TODO: Implement
+        
         public WestminsterCatechism GetTodaysCatechism()
         {
-            throw new System.NotImplementedException();
+            var todaysDate = DateTime.Today;
+
+            //This is the day number fo the year (1 - 365)
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            var todaysWestminsterCatechismNumber = cal.GetDayOfYear(todaysDate);
+            
+            //get today's question number
+            var numberOfQuestions = 107;
+            var numberOfQuestionsX2 = numberOfQuestions * 2;//if the day of the year is past 107
+            var numberOfQuestionsX3 = numberOfQuestions * 3;//if the day of the year is past 214
+
+            //lets get the catechism number
+            //first check if today's day of the year # is between 108 and 214
+            if (todaysWestminsterCatechismNumber > numberOfQuestions && todaysWestminsterCatechismNumber <= numberOfQuestionsX2)
+            {
+                //subtract today's day of the year # from the 107 (total # of questions) to get today's # as we are moving thru the questions for a 2nd time
+                todaysWestminsterCatechismNumber = todaysWestminsterCatechismNumber - numberOfQuestions;
+            }
+            //next check if today's day of the year # is between 215 and 321
+            else if (todaysWestminsterCatechismNumber > numberOfQuestionsX2 && todaysWestminsterCatechismNumber <= numberOfQuestionsX3)
+            {
+                //subtract today's day of the year # from the 214 (total # of questions * 2) to get today's # as we are moving thru the questions for a 3rd time
+                todaysWestminsterCatechismNumber = todaysWestminsterCatechismNumber - numberOfQuestionsX2;
+            }
+            //then check if today's day of the year # is greater than 321
+            else if (todaysWestminsterCatechismNumber > numberOfQuestionsX3)
+            {
+                //since we have been thru 3 times let's get a random question and answer
+                var random = new Random();
+                todaysWestminsterCatechismNumber = random.Next(1, 108); // creates a number between 1 and 107
+            }
+
+            return _catechismRepository.GetCatechismByNumber(todaysWestminsterCatechismNumber);
         }
     }
 }

@@ -31,10 +31,15 @@ namespace m2prayer.Controllers
         // GET: TodaysPrayer
         public ActionResult Index()
         {
-            //TODO: GetTodaysCatechism()
-            //TODO: GetTodaysPrayerRequests()
+            //today's catechism
+            ViewBag.TodaysCatechismNumber = _catechismService.GetTodaysCatechism().Number;
+            ViewBag.TodaysCatechismQuestion = _catechismService.GetTodaysCatechism().Question;
+            ViewBag.TodaysCatechismAnswer = _catechismService.GetTodaysCatechism().Answer;
 
+            //current Joshua's Men verses
             ViewBag.CurrentVerses = _verseService.GetCurrentVerses();
+
+            //get the daily verse
             var esvApi = new EsvApi();
             ViewBag.TodaysVerse = esvApi.GetDailyVerse();
             return View();

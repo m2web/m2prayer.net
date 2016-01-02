@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using m2prayer.Models;
@@ -15,6 +16,7 @@ namespace m2prayer.Repository
         void UpdateCatechism(WestminsterCatechism catechism);
         void Save();
         void Dispose();
+        WestminsterCatechism GetCatechismByNumber(int number);
     }
 
     public class WestminsterCatechismRepository : IWestminsterCatechismRepository
@@ -72,6 +74,12 @@ namespace m2prayer.Repository
         {
             Dispose(true);
             SuppressFinalize(this);
+        }
+
+        public WestminsterCatechism GetCatechismByNumber(int number)
+        {
+            var result = _context.WestminsterCatechisms.FirstOrDefault(c => c.Number.Equals(number));
+            return result;
         }
     }
 }
