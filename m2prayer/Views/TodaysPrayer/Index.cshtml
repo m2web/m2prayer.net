@@ -7,7 +7,7 @@
     });
 </script>
 <div class="jumbotron">
-    <h1>Mark's Today Prayer Site</h1>
+    <h1>Today Prayer</h1>
 </div>
 <div class="row">
     <div class="bg-TodaysVerse">
@@ -45,4 +45,12 @@
             </tr>
         }
     </table>
+    <div class="bg-TodaysPsalm">
+        <div>
+            <h1>Today's Psalm</h1>
+        </div>
+        <div>
+            @Html.Raw(ViewBag.TodaysPsalm)
+        </div>
+    </div>
 </div>

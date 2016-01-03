@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -8,6 +10,7 @@ namespace m2prayer.Services
     {
         string GetVerse(string verseReference);
         string GetDailyVerse();
+        string GetTodaysPsalm();
     }
 
     public class EsvApi : IEsvApi
@@ -74,6 +77,33 @@ namespace m2prayer.Services
             sStream.Close();
 
             return sOut.ToString();
+        }
+
+        public string GetTodaysPsalm()
+        {
+            var todaysDate = DateTime.Today;
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            var monthDayNumber = cal.GetDayOfMonth(todaysDate);
+            var random = new Random();
+
+            var psalmNumber = 1;
+            var thePsalmOutput = "There was an error getting the Psalm chapter.";
+           
+            //if the 31st then set a random day
+            if (monthDayNumber > 30)
+            {
+                //given that there are 150 Psalms, max day is 30
+                monthDayNumber = random.Next(1, 31);
+            }
+            //get the last chapter in today's range
+            var daysLastChapterNumber = monthDayNumber * 5;
+            //get the first chapter in today's range
+            var daysFirstChapterNumber = daysLastChapterNumber - 4;
+
+            //get the random Psalm chapter number
+            psalmNumber = random.Next(daysFirstChapterNumber, daysLastChapterNumber);
+
+            return GetVerse("Psalm " + psalmNumber);
         }
     }
 }

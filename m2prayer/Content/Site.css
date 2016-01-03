@@ -24,9 +24,13 @@ textarea {
 }
 
 .bg-TodaysVerse {
-  background-color: #d9e8ec;
+    background-color: #d9e8ec;
 }
 
 .bg-TodaysCatechsim { 
-     background-color: #e8e6d5;
+    background-color: #e8e6d5;
+}
+
+.bg-TodaysPsalm {
+    background-color: #e6e2bf;
 }

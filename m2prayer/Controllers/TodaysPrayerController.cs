@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Web.Mvc;
 using m2prayer.Services;
 
@@ -46,7 +47,43 @@ namespace m2prayer.Controllers
             //get today's prayer request
             ViewBag.TodaysPrayerRequests = _prayerRequestService.GetTodaysPrayerRequests();
 
+            //get today's Psalm
+            ViewBag.TodaysPsalm = esvApi.GetTodaysPsalm();
+
             return View();
+        }
+
+        public ActionResult GetVovPrayerLink()
+        {
+            //URL structure items
+            var linkBase = "http://markmcfadden.net/prayerweb/vov/";
+            var pageExtension = ".html";
+            
+            //get the day number of the year
+            var todaysDate = DateTime.Today;
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            var todaysVovPrayerNumber = cal.GetDayOfYear(todaysDate);
+
+            var random = new Random();
+
+            //the number of VOV prayers
+            var numberOfPrayers = 159;
+            //since there is more than 159 days in the year multiply it by 2
+            var numberOfPrayersX2 = numberOfPrayers * 2;
+
+            //if today's number is more than the number of prayers but less than twice the number of prayers the difference between the two
+            //to get the current day's VOV prayer as you have been through them once this year
+            if (todaysVovPrayerNumber > numberOfPrayers && todaysVovPrayerNumber <= numberOfPrayersX2)
+            {
+                todaysVovPrayerNumber -= numberOfPrayers;
+            }
+            //if today's number is greater than twice the number of prayers get a random number of a prayer
+            else if (todaysVovPrayerNumber > numberOfPrayersX2)
+            {
+                todaysVovPrayerNumber = random.Next(1, numberOfPrayers);
+            }
+
+            return Redirect(linkBase + todaysVovPrayerNumber + pageExtension);
         }
     }
 }
