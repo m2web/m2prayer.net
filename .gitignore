@@ -186,8 +186,9 @@ UpgradeLog*.XML
 UpgradeLog*.htm
 
 # SQL Server files
-*.mdf
-*.ldf
+# Commented the 2 lines below out to include the AppData Db files
+#*.mdf
+#*.ldf
 
 # Business Intelligence projects
 *.rdl.data
