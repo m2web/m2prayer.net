@@ -47,6 +47,9 @@ namespace m2prayer.Controllers
             //get today's prayer request
             ViewBag.TodaysPrayerRequests = _prayerRequestService.GetTodaysPrayerRequests();
 
+            //get all prayer requests for drop-down menu
+            ViewBag.AllPrayerRequests = _prayerRequestService.GetRequests();
+
             //get today's Psalm
             ViewBag.TodaysPsalm = esvApi.GetTodaysPsalm();
 
