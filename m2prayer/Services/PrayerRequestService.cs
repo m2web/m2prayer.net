@@ -80,8 +80,8 @@ namespace m2prayer.Services
 
             //categories per day = (categories / number of days of prayer w unique requests)
             var categoriesPerDay = (requestCount / 4);
-            var categoryEnd = 0;
-            var categoryStart = 0;
+            int categoryEnd;
+            int categoryStart;
 
             //determine the last category to pray about that day
             if (weekDayNumber * categoriesPerDay <= requestCount)
@@ -108,11 +108,11 @@ namespace m2prayer.Services
                 else {//it is Monday - Wednesday
                     categoryEnd = requestCount;
                 }
-                //end random prayer list days setting here
 
-                //determine the first category to pray about that day
-                categoryStart = categoryEnd - categoriesPerDay;
-            }
+            }//end random prayer list days setting here
+
+            //determine the first category to pray about that day
+            categoryStart = categoryEnd - categoriesPerDay;
 
             return _prayerRequestRepository.GetTodaysPrayerRequests(categoryStart, categoryEnd);
         }
