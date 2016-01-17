@@ -45,9 +45,11 @@
             </tr>
         }
     </table>
-    <!-- TODO: Place category drop down menu here listing the categories then displaying the selected category -->
-    @*@Html.DropDownList("", ViewBag.AllPrayerRequests)*@
     
+    <!-- TODO: Place category drop down menu here listing the categories then displaying the selected category -->
+   @Html.DropDownList("SelectedPrayerCategory", new SelectList(ViewBag.AllPrayerRequests, "Id", "Category"))
+
+
     <div class="bg-TodaysPsalm">
         <div>
             <h1>Today's Psalm</h1>
