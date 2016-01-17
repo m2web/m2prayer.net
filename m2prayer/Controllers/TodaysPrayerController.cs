@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Web.Mvc;
+using m2prayer.Models;
 using m2prayer.Services;
 
 namespace m2prayer.Controllers
@@ -30,7 +31,7 @@ namespace m2prayer.Controllers
         }
 
         // GET: TodaysPrayer
-        public ActionResult Index()
+        public ActionResult Index(int selectedPrayerCategoryId = 0)
         {
             //get the daily verse
             var esvApi = new EsvApi();
@@ -52,6 +53,12 @@ namespace m2prayer.Controllers
 
             //get today's Psalm
             ViewBag.TodaysPsalm = esvApi.GetTodaysPsalm();
+
+            //check if coming from Today's Prayer and selecting a prayer category
+            if (selectedPrayerCategoryId > 0)
+            {
+                ViewBag.SelectedPrayer = _prayerRequestService.GetRequestById(selectedPrayerCategoryId).Request;
+            }
 
             return View();
         }
@@ -88,5 +95,11 @@ namespace m2prayer.Controllers
 
             return Redirect(linkBase + todaysVovPrayerNumber + pageExtension);
         }
+
+        //public ActionResult GetSelectedPrayer(int selectedPrayerCategoryId)
+        //{
+        //    ViewBag.SelectedPrayer = _prayerRequestService.GetRequestById(selectedPrayerCategoryId);
+        //    return RedirectToAction("Index");
+        //}
     }
 }

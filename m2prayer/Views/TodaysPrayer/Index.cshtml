@@ -45,10 +45,16 @@
             </tr>
         }
     </table>
-    
-    <!-- TODO: Place category drop down menu here listing the categories then displaying the selected category -->
-   @Html.DropDownList("SelectedPrayerCategory", new SelectList(ViewBag.AllPrayerRequests, "Id", "Category"))
 
+    <!-- TODO: Place category drop down menu here listing the categories then displaying the selected category -->
+    @using (Html.BeginForm("Index", "TodaysPrayer"))
+    {
+        @Html.DropDownList("selectedPrayerCategoryId", new SelectList(ViewBag.AllPrayerRequests, "Id", "Category"), new { onchange = "this.form.submit();" })
+    }
+    @if (ViewBag.SelectedPrayer != null)
+    {
+        <div class="message">@ViewBag.SelectedPrayer</div>
+    }
 
     <div class="bg-TodaysPsalm">
         <div>
