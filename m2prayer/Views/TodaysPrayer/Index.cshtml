@@ -5,6 +5,20 @@
     $(document).ready(function() {
         $("table > tbody tr:odd").css("background-color", "#F7F7F7");
     });
+
+    function getSelectedPrayer(id) {
+       if (id > 0) {//then get the prayer category
+           $.getJSON("/TodaysPrayer/GetSelectedPrayer/" + id)
+               .done(function(data) {
+                   $('#selectedPrayer').text(data);
+               })
+               .fail(function(err) {
+                   $('#selectedPrayer').text('Error: ' + err);
+               });
+       } else {//the "Select Prayer Category" option was selected
+           $('#selectedPrayer').text("");
+       }
+    };
 </script>
 <div class="jumbotron">
     <h1>Today Prayer</h1>
@@ -46,15 +60,13 @@
         }
     </table>
 
-    <!-- TODO: Place category drop down menu here listing the categories then displaying the selected category -->
-    @using (Html.BeginForm("Index", "TodaysPrayer"))
-    {
-        @Html.DropDownList("selectedPrayerCategoryId", new SelectList(ViewBag.AllPrayerRequests, "Id", "Category"), new { onchange = "this.form.submit();" })
-    }
-    @if (ViewBag.SelectedPrayer != null)
-    {
-        <div class="message">@ViewBag.SelectedPrayer</div>
-    }
+    <div>
+        @using (Html.BeginForm("Index", "TodaysPrayer"))
+        {
+            @Html.DropDownList("selectedPrayerCategoryId", new SelectList(ViewBag.AllPrayerRequests, "Id", "Category"), "Select Prayer Category", new { onchange = "getSelectedPrayer(this.value)", @class = "btn btn-default dropdown-toggle" })
+        }
+    </div>
+    <div id="selectedPrayer" class="bg-SelectedPrayer"></div>
 
     <div class="bg-TodaysPsalm">
         <div>

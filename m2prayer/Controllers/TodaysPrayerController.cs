@@ -96,11 +96,10 @@ namespace m2prayer.Controllers
             return Redirect(linkBase + todaysVovPrayerNumber + pageExtension);
         }
 
-        //TODO: look at http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api
-        //public ActionResult GetSelectedPrayer(int selectedPrayerCategoryId)
-        //{
-        //    ViewBag.SelectedPrayer = _prayerRequestService.GetRequestById(selectedPrayerCategoryId);
-        //    return RedirectToAction("Index");
-        //}
+        public ActionResult GetSelectedPrayer(int id)
+        {
+            var selectedPrayer = _prayerRequestService.GetRequestById(id).Request;
+            return Json(selectedPrayer, JsonRequestBehavior.AllowGet);
+        }
     }
 }
